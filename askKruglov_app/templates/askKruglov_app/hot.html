@@ -1,0 +1,24 @@
+{% extends "./index.html" %}
+
+{% block caption %}
+<span class = "extra"> <a href = "{% url 'askKruglov_app:index' %}"> New Questions </a> </span>
+<span> Hot Questions </span>
+{% endblock %}
+
+{% block paginator %}
+<div class = "paginator">
+	<div class = "btn-group btn-group-lg">
+		{% if questions.has_previous %}
+		<a href = "{% url 'askKruglov_app:hot' 1 %}"><button type = "button" class = "btn btn-default"> &lt;&lt; </button></a>
+		<a href = "{% url 'askKruglov_app:hot' questions.previous_page_number %}"><button type = "button" class = "btn btn-default"> {{questions.previous_page_number}} </button></a>
+		{% endif %}
+
+		<a><button type = "button" class = "btn btn-success"> {{ questions.number }} </button></a>
+
+		{% if questions.has_next %}
+		<a href = "{% url 'askKruglov_app:hot' questions.next_page_number %}"><button type = "button" class = "btn btn-default"> {{questions.next_page_number}} </button></a>
+		<a href = "{% url 'askKruglov_app:hot' questions.paginator.num_pages %}"><button type = "button" class = "btn btn-default"> &gt;&gt; </button></a>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

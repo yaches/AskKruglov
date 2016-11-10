@@ -1,0 +1,101 @@
+{% extends "./base.html" %}
+
+{% block content %}
+<div class = "main-message">
+	<div class = "row">
+		<div class = "col-md-3">
+			<div class = "author">
+				<img src = "/avatar.jpg" alt = "Avatar" class = "img-rounded img-thumbnail">
+				{{ question.author }}
+				<div class = "btn-group btn-group-lg">
+					<button type = "button" class = "btn btn-default"> <span class = "glyphicon glyphicon-arrow-down"> </span> </button>
+					<button type = "button" class = "btn btn-default disabled"> {{ question.likes }} </button>
+					<button type = "button" class = "btn btn-default"> <span class = "glyphicon glyphicon-arrow-up"> </span> </button>
+				</div>
+			</div>
+		</div>
+
+		<div class = "col-md-9">
+			<div class = "caption"> 
+				{{ question.title }}
+			</div>
+			{{ question.body }}
+			<br>
+			<div class = "tags"> 
+				Tags:
+					{% for tag in question.tags %}
+					<span>
+						<a href = "{% url 'askKruglov_app:tag' tag %}"> {{ tag }}</a>
+					</span>
+					{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- <hr> -->
+
+{% for answer in answers %}
+<div class = "message">
+	<div class = "row">
+		<div class = "col-md-2">
+			<div class = "author">
+				<img src = "/avatar.jpg" alt = "Avatar" class = "img-rounded img-thumbnail">
+				{{ answer.author }}
+				<div class = "btn-group btn-group-sm">
+					<button type = "button" class = "btn btn-default"> <span class = "glyphicon glyphicon-arrow-down"> </span> </button>
+					<button type = "button" class = "btn btn-default disabled"> {{ answer.likes }} </button>
+					<button type = "button" class = "btn btn-default"> <span class = "glyphicon glyphicon-arrow-up"> </span> </button>
+				</div>
+			</div>
+		</div>
+		<div class = "col-md-10">
+			{{ answer.body }}
+			<br>
+			<br>
+			<div class="checkbox tags">
+				<label>
+					<input type="checkbox" value=""> Correct!
+				</label>
+		</div>
+		</div>
+	</div>
+</div>
+{% endfor %}
+
+{% block paginator %}
+<div class = "paginator">
+	<div class = "btn-group btn-group-lg">
+		{% if answers.has_previous %}
+		<a href = "{% url 'askKruglov_app:question' id 1 %}"><button type = "button" class = "btn btn-default"> &lt;&lt; </button></a>
+		<a href = "{% url 'askKruglov_app:question' id answers.previous_page_number %}"><button type = "button" class = "btn btn-default"> {{answers.previous_page_number}} </button></a>
+		{% endif %}
+
+		<a><button type = "button" class = "btn btn-success"> {{ answers.number }} </button></a>
+
+		{% if answers.has_next %}
+		<a href = "{% url 'askKruglov_app:question' id answers.next_page_number %}"><button type = "button" class = "btn btn-default"> {{answers.next_page_number}} </button></a>
+		<a href = "{% url 'askKruglov_app:question' id answers.paginator.num_pages %}"><button type = "button" class = "btn btn-default"> &gt;&gt; </button></a>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+
+<div class = "answer-form">
+	<div class = "row">
+		<div class = "col-md-2">
+			<div class = "author">
+				<img src = "/avatar.jpg" alt = "Avatar" class = "img-rounded img-thumbnail">
+				yaches
+			</div>
+		</div>
+		<div class = "col-md-10">
+			<form class = "form-horizontal" role = "form">
+				<textarea class = "form-control input-lg" maxlength = "256" placeholder = "Enter your answer here." rows = "5"></textarea>
+				<br>
+				<button type = "submit" class = "btn btn-default button-text"> Answer </button>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
