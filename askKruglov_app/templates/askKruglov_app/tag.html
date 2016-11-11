@@ -5,6 +5,6 @@
 {% endblock %}
 
 {% block paginator %}
-	{% url "askKruglov_app:tag" tag_name blank_arg as page_url %} 
+	{% url "askKruglov_app:tag" tag_name as page_url %} 
 	{% include "./paginator.html" %}
 {% endblock %}

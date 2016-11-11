@@ -1,25 +1,11 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.shortcuts import redirect
+from django.urls import reverse
 
 import random
 
 random.seed()
-
-# title = 'Question Title from views.py'
-# body = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. \
-# 		Donec ut mauris lacinia, semper tellus sit amet, ultricies augue. \
-# 		Fusce et nulla vel justo imperdiet hendrerit eget ut ipsum. \
-# 		Vestibulum fermentum rutrum erat, hendrerit blandit risus aliquet nec. \
-# 		Nullam volutpat, risus ac laoreet accumsan, risus libero pharetra augue, \
-# 		et iaculis risus mauris nec magna. Vivamus auctor est eu ante congue varius. \
-# 		Nunc a est id tellus pellentesque lobortis id vitae leo. \
-# 		Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. \
-# 		Fusce erat ligula, sollicitudin ac semper vitae, malesuada in lorem.'
-# tags = ['Mail.ru', 'Python', 'Django']
-# author = 'Gogol'
-# likes = 9
-# answers = 8
 
 questions = []
 for i in range(1, 36000):
@@ -42,14 +28,18 @@ def paginate(objects_list, in_page, page_num):
 	try:
 		page = paginator.page(page_num)
 	except:
-		page = paginator.page(1)
+		# page = paginator.page(1)
+		raise Exception
 
 	return page
 
 
 def index(request, page_num = 1):
 
-	page = paginate(questions, 5, page_num)
+	try:
+		page = paginate(questions, 5, page_num)
+	except:
+		return redirect('../')
 
 	return render(request, 'askKruglov_app/index.html', {
 			'page': page,
@@ -59,7 +49,10 @@ def index(request, page_num = 1):
 
 def hot(request, page_num = 1):
 
-	page = paginate(questions, 5, page_num)
+	try:
+		page = paginate(questions, 5, page_num)
+	except:
+		return redirect('../')
 
 	return render(request, 'askKruglov_app/hot.html', {
 			'page': page,
@@ -67,12 +60,12 @@ def hot(request, page_num = 1):
 			'tags': tags,
 		})
 
-def tag(request, tag_name, page_num = 0):
+def tag(request, tag_name, page_num = 1):
 
-	if page_num == 0:
-		return redirect(tag_name + '/1')
-
-	page = paginate(questions, 5, page_num)
+	try:
+		page = paginate(questions, 5, page_num)
+	except:
+		return redirect('../')
 
 	return render(request, 'askKruglov_app/tag.html', {
 			'page': page,
@@ -81,21 +74,43 @@ def tag(request, tag_name, page_num = 0):
 			'tag_name': tag_name,
 		})
 
-def question(request, question_id, page_num = 0):
+def question(request, question_id, page_num = 1):
 
-	if page_num == 0:
-		return redirect(question_id + '/1')
-
-	page = paginate(questions, 5, page_num)
 	try:
-		question = questions[int(question_id) - 1]
+		page = paginate(questions, 5, page_num)
 	except:
-		question = questions[0]
+		return redirect('../')
+
+	quest = questions[int(question_id) - 1]
 
 	return render(request, 'askKruglov_app/question.html', {
-			'question': question,
+			'question': quest,
 			'page': page,
 			'id': question_id,
 			'members': members,
 			'tags': tags,
+		})
+
+def ask(request):
+	return render(request, 'askKruglov_app/ask.html', {
+		'members': members,
+		'tags': tags,
+		})
+
+def login(request):
+	return render(request, 'askKruglov_app/login.html', {
+		'members': members,
+		'tags': tags,
+		})
+
+def signup(request):
+	return render(request, 'askKruglov_app/signup.html', {
+		'members': members,
+		'tags': tags,
+		})
+
+def settings(request):
+	return render(request, 'askKruglov_app/settings.html', {
+		'members': members,
+		'tags': tags,
 		})

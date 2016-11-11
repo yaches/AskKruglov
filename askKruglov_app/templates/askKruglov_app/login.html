@@ -1,173 +1,73 @@
-<!DOCTYPE html>
+{% extends "./base.html" %}
 
-<html lang = "en">
-	<head>
-		<meta charset = "utf-8">
-		<meta http-equiv = "X-UA-Compatible" content = "IE=edge">
-		<meta name = "viewport" content = "width = device-width, initial-scale = 1">
+{% block content %}
+<div class = "login-form">
+	<div class = "caption">
+		Log In
+	</div>
 
-		<meta name = "description" content = "">
-		<meta name = "author" content = "">
-		<link rel = "icon" href = "favicon.ico">
+	<br>
 
-		<title> AskKruglov </title>
+	<div class = "form">
 
-		<link href = "getbootstrap.com/dist/css/bootstrap.css" rel = "stylesheet">
-		<link href = "getbootstrap.com/dist/css/bootstrap-theme.css" rel = "stylesheet">
-
-		<link href = "styles.css" rel = "stylesheet">
-
-	</head>
-
-	<body>
-
-		<div class = "header">
-			<div class = "row">
-				<div class = "col-md-3">
-					<a href = "index.html">
-						<button type = "button" class = "btn btn-default btn-lg">
-							<div id = "name" class = "button-text"> AskKruglov </div> 
-						</button>
-					</a>
-				</div>
-
-				<div class = "col-md-5 align">
-					<form role = "form">
-						<input type = "text" class = "form-control" placeholder = "Search">
-					</form>
-				</div>
-
-				<div class = "col-md-1 align button-text">
-					<a href = "ask.html">
-						<button type = "submit" class = "btn btn-default"> 					
-							<div class = "button-text"> Ask! </div> 
-						</button>
-					</a>
-				</div>
-
-				<div class = "col-md-3 user-panel user-panel-lg">
-					<a href = "login.html"> Log In </a>
-					&nbsp; &nbsp;
-					<a href = "register.html"> Register </a>
-				
-					<img src = "" class = "hidden-img">
-					
-				</div>
-
-			</div>
-		</div>
-
-		<div class = "page">
-
-			<div class = "row">
-
-				<div class = "col-md-9 content login-form">
-					<div class = "caption">
-						Log In
-					</div>
-
-					<br>
-
-					<div class = "form">
-
-						<form class = "form-horizontal" role = "form">
-							
-							<div class = "form-group">
-								<div class = "col-md-12">
-									<span class = "danger">
-										Sorry, wrong password! 
-									</span>
-
-								</div>
-							</div>
-
-							<div class = "form-group">
-								<div class = "col-md-2">
-									<label class = "control-label"> Login </label>
-								</div>
-								
-								<div class = "col-md-7">
-									<input required type = "text" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your login here" id = "inputError1">
-								</div>
-
-								<div class = "col-md-3">
-									<!-- <label class = "control-label">Input Error</label> -->
-								</div>
-
-							</div>
-
-							<div class = "form-group">
-								<div class = "col-md-2">
-									<label class = "control-label"> Password </label>
-								</div>
-								
-								<div class = "col-md-7">
-									<input required type = "password" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your password here" id = "inputError1">
-								</div>
-
-								<div class = "col-md-3">
-									<!-- <label class = "control-label">Input Error</label> -->
-								</div>
-
-							</div>
-
-							<div class = "form-group">
-								<div class = "col-md-offset-2 col-md-2">
-									<button type = "submit" class = "btn btn-lg btn-default">
-										<div class = "button-text"> Log In! </div>
-									</button>
-								</div>
-
-								<div class = "col-md-5" id = "new-account">
-									<a href = "register.html">
-										<button type = "button" class = "btn btn-lg btn-default">
-											<div class = "button-text"> Create new account </div>
-										</button>
-									</a>
-								</div>
-							</div>
-
-						</form>
-					</div>
-						
-				</div>
-
-				<div class = "col-md-3 sidebaar">
-					<div class = "tags">
-						<h1> Popular tags: </h1>
-							<span class = "tag4"> <a href = "tag.html"> Perl </a> </span> 
-							<span class = "tag2"> <a href = "tag.html"> Python </a> </span>
-							<span class = "tag1"> <a href = "tag.html"> TechnoPark </a> </span>
-							<span class = "tag3"> <a href = "tag.html"> MySQL </a> </span> 
-							<span class = "tag1"> <a href = "tag.html"> Mail.ru </a> </span> 
-							<span class = "tag3"> <a href = "tag.html"> Firefox </a> </span> 
-							<span class = "tag4"> <a href = "tag.html"> House </a> </span> 
-					</div>
-
-					<div class = "members">
-						<h1> Best members: </h1>
-							<h3>
-								1. Dr. House <br>
-								2. Mr. Freeman <br>
-								3. Bender <br>
-								4. Queen Victoria <br>
-								5. Harry Potter <br>
-							</h3>
-					</div>
-				</div>
-			</div>
-
-		</div>
-
-		<div class = "floor">
-			<div class = "row">
+		<form class = "form-horizontal" role = "form">
+			
+			<div class = "form-group">
 				<div class = "col-md-12">
-					AskKruglov (c) TechnoPark 
-					<br>
-					2016
+					<span class = "danger">
+						Sorry, wrong password! 
+					</span>
+
 				</div>
 			</div>
-		</div>
 
-	</body>
-</html>
+			<div class = "form-group">
+				<div class = "col-md-2">
+					<label class = "control-label"> Login </label>
+				</div>
+				
+				<div class = "col-md-7">
+					<input required type = "text" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your login here" id = "inputError1">
+				</div>
+
+				<div class = "col-md-3">
+					<!-- <label class = "control-label">Input Error</label> -->
+				</div>
+
+			</div>
+
+			<div class = "form-group">
+				<div class = "col-md-2">
+					<label class = "control-label"> Password </label>
+				</div>
+				
+				<div class = "col-md-7">
+					<input required type = "password" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your password here" id = "inputError1">
+				</div>
+
+				<div class = "col-md-3">
+					<!-- <label class = "control-label">Input Error</label> -->
+				</div>
+
+			</div>
+
+			<div class = "form-group">
+				<div class = "col-md-offset-2 col-md-2">
+					<button type = "submit" class = "btn btn-lg btn-default">
+						<div class = "button-text"> Log In! </div>
+					</button>
+				</div>
+
+				<div class = "col-md-5" id = "new-account">
+					<a href = "{% url 'askKruglov_app:signup' %}">
+						<button type = "button" class = "btn btn-lg btn-default">
+							<div class = "button-text"> Create new account </div>
+						</button>
+					</a>
+				</div>
+			</div>
+
+		</form>
+	</div>	
+</div>
+{% endblock %}

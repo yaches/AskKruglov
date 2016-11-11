@@ -1,4 +1,4 @@
-{% extends "./base.html" %}
+{% extends "./base_loginned.html" %}
 
 {% block content %}
 <div class = "main-message">
@@ -62,7 +62,7 @@
 {% endfor %}
 
 {% block paginator %}
-	{% url "askKruglov_app:question" id blank_arg as page_url %} 
+	{% url "askKruglov_app:question" id as page_url %} 
 	{% include "./paginator.html" %}
 {% endblock %}
 

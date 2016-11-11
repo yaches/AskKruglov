@@ -38,7 +38,7 @@
 				</div>
 
 				<div class = "col-md-1 align button-text">
-					<a href = "ask.html">
+					<a href = "{% url 'askKruglov_app:ask' %}">
 						<button type = "submit" class = "btn btn-default"> 					
 							<div class = "button-text"> Ask! </div> 
 						</button>
@@ -47,9 +47,9 @@
 
 				{% block user_panel %}
 				<div class = "col-md-3 user-panel user-panel-lg">
-					<a href = "login.html"> Log In </a>
+					<a href = "{% url 'askKruglov_app:login' %}"> Log In </a>
 					&nbsp; &nbsp;
-					<a href = "register.html"> Register </a>
+					<a href = "{% url 'askKruglov_app:signup' %}"> Register </a>
 				
 					<img src = "" class = "hidden-img">
 					

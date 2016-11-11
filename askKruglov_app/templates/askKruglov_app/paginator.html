@@ -1,19 +1,3 @@
-<!-- <div class = "paginator">
-	<div class = "btn-group btn-group-lg">
-		{% if page.has_previous %}
-		<a href = "{{ page_url }}1"><button type = "button" class = "btn btn-default"> &lt;&lt; </button></a>
-		<a href = "{{ page_url }}{{ page.previous_page_number }}"><button type = "button" class = "btn btn-default"> {{ page.previous_page_number }} </button></a>
-		{% endif %}
-
-		<a><button type = "button" class = "btn btn-success"> {{ page.number }} </button></a>
-
-		{% if page.has_next %}
-		<a href = "{{ page_url }}{{ page.next_page_number }}"><button type = "button" class = "btn btn-default"> {{ page.next_page_number }} </button></a>
-		<a href = "{{ page_url }}{{ page.paginator.num_pages }}"><button type = "button" class = "btn btn-default"> &gt;&gt; </button></a>
-		{% endif %}
-	</div>
-</div> -->
-
 <div class = "paginator">
 	<div class = "btn-group btn-group-lg">
 		{% if page.has_previous %}
