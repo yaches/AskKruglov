@@ -5,19 +5,6 @@
 {% endblock %}
 
 {% block paginator %}
-<div class = "paginator">
-	<div class = "btn-group btn-group-lg">
-		{% if questions.has_previous %}
-		<a href = "{% url 'askKruglov_app:tag' tag_name 1 %}"><button type = "button" class = "btn btn-default"> &lt;&lt; </button></a>
-		<a href = "{% url 'askKruglov_app:tag' tag_name questions.previous_page_number %}"><button type = "button" class = "btn btn-default"> {{questions.previous_page_number}} </button></a>
-		{% endif %}
-
-		<a><button type = "button" class = "btn btn-success"> {{ questions.number }} </button></a>
-
-		{% if questions.has_next %}
-		<a href = "{% url 'askKruglov_app:tag' tag_name questions.next_page_number %}"><button type = "button" class = "btn btn-default"> {{questions.next_page_number}} </button></a>
-		<a href = "{% url 'askKruglov_app:tag' tag_name questions.paginator.num_pages %}"><button type = "button" class = "btn btn-default"> &gt;&gt; </button></a>
-		{% endif %}
-	</div>
-</div>
+	{% url "askKruglov_app:tag" tag_name blank_arg as page_url %} 
+	{% include "./paginator.html" %}
 {% endblock %}

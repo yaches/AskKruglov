@@ -1,0 +1,10 @@
+Posts by tag: {{ tag_name }} <br> <br>
+{% for question in questions %}
+    Author: {{ question.author }} <br>
+    Title: {{ question.title }} <br>
+    Body: {{ question.body }} <br>
+{% endfor %}
+
+{% load i18n %}
+{% url 'test_app:tag' tag_name a b c as page_url %}
+{% include "./paginator.html" %}

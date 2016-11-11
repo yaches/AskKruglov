@@ -1,0 +1,12 @@
+{% if questions.has_previous %}
+    <a href = "{{ page_url }}1" ><button> &lt;&lt; </button></a>
+    <a href = "{{ page_url }}{{ questions.previous_page_number }}"><button> {{ questions.previous_page_number }} </button></a>
+{% endif %}
+
+<a><button> {{ questions.number }} </button></a>
+
+{% if questions.has_next %}
+    <a href = "{{ page_url }}{{ questions.next_page_number }}"><button> {{ questions.next_page_number }} </button></a>
+    <a href = "{{ page_url }}{{ questions.paginator.num_pages }}"><button> &gt;&gt; </button></a>
+{% endif %}
+

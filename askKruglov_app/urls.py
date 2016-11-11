@@ -1,11 +1,12 @@
 from django.conf.urls import url
+from django.views.generic.base import RedirectView
 
 from . import views
 
 app_name = 'askKruglov_app'
 urlpatterns = [
-	# url(r'\.(css|jpg|jpeg|html|ico|js|woff|woff2|ttf)'),
 	url(r'^$', views.index, name = 'index'),
+	# url(r'^$', RedirectView.as_view(url='1')),
 	url(r'^(?P<page_num>[0-9]+)$', views.index, name = 'index'),
 	url(r'^hot/$', views.hot, name = 'hot'),
 	url(r'^hot/(?P<page_num>[0-9]+)$', views.hot, name = 'hot'),

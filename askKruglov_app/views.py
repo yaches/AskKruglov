@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
+from django.shortcuts import redirect
+
 import random
 
 random.seed()
@@ -50,10 +52,9 @@ def index(request, page_num = 1):
 	page = paginate(questions, 5, page_num)
 
 	return render(request, 'askKruglov_app/index.html', {
-			'questions': page,
+			'page': page,
 			'members': members,
 			'tags': tags,
-			# 'url_name': ['askKruglov_app:index', ''],
 		})
 
 def hot(request, page_num = 1):
@@ -61,25 +62,29 @@ def hot(request, page_num = 1):
 	page = paginate(questions, 5, page_num)
 
 	return render(request, 'askKruglov_app/hot.html', {
-			'questions': page,
+			'page': page,
 			'members': members,
 			'tags': tags,
-			# 'url_name': ['askKruglov_app:hot', ],
 		})
 
-def tag(request, tag_name, page_num = 1):
+def tag(request, tag_name, page_num = 0):
+
+	if page_num == 0:
+		return redirect(tag_name + '/1')
 
 	page = paginate(questions, 5, page_num)
 
 	return render(request, 'askKruglov_app/tag.html', {
-			'questions': page,
+			'page': page,
 			'members': members,
 			'tags': tags,
 			'tag_name': tag_name,
-			# 'url_name': ['askKruglov_app:tag', str(tag_name)],
 		})
 
-def question(request, question_id, page_num = 1):
+def question(request, question_id, page_num = 0):
+
+	if page_num == 0:
+		return redirect(question_id + '/1')
 
 	page = paginate(questions, 5, page_num)
 	try:
@@ -89,7 +94,7 @@ def question(request, question_id, page_num = 1):
 
 	return render(request, 'askKruglov_app/question.html', {
 			'question': question,
-			'answers': page,
+			'page': page,
 			'id': question_id,
 			'members': members,
 			'tags': tags,

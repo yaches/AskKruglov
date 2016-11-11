@@ -33,9 +33,7 @@
 	</div>
 </div>
 
-<!-- <hr> -->
-
-{% for answer in answers %}
+{% for answer in page %}
 <div class = "message">
 	<div class = "row">
 		<div class = "col-md-2">
@@ -64,21 +62,8 @@
 {% endfor %}
 
 {% block paginator %}
-<div class = "paginator">
-	<div class = "btn-group btn-group-lg">
-		{% if answers.has_previous %}
-		<a href = "{% url 'askKruglov_app:question' id 1 %}"><button type = "button" class = "btn btn-default"> &lt;&lt; </button></a>
-		<a href = "{% url 'askKruglov_app:question' id answers.previous_page_number %}"><button type = "button" class = "btn btn-default"> {{answers.previous_page_number}} </button></a>
-		{% endif %}
-
-		<a><button type = "button" class = "btn btn-success"> {{ answers.number }} </button></a>
-
-		{% if answers.has_next %}
-		<a href = "{% url 'askKruglov_app:question' id answers.next_page_number %}"><button type = "button" class = "btn btn-default"> {{answers.next_page_number}} </button></a>
-		<a href = "{% url 'askKruglov_app:question' id answers.paginator.num_pages %}"><button type = "button" class = "btn btn-default"> &gt;&gt; </button></a>
-		{% endif %}
-	</div>
-</div>
+	{% url "askKruglov_app:question" id blank_arg as page_url %} 
+	{% include "./paginator.html" %}
 {% endblock %}
 
 <div class = "answer-form">
