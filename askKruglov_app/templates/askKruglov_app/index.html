@@ -28,14 +28,14 @@
 						{{ question.title }}
 					</a>
 				</div>
-				{{ question.body }} 
+				{{ question.text }} 
 				<br>
 				<a class = "number" href = "{% url 'askKruglov_app:question' question.id %}"> 
-					<h4> Answer ({{ question.answers }}) </h4> 
+					<h4> Answer ({{ question.answers_amount }}) </h4> 
 				</a> 
 				<div class = "tags"> 
 					Tags:
-					{% for tag in question.tags %}
+					{% for tag in question.tags.all %}
 					<span>
 						<a href = "{% url 'askKruglov_app:tag' tag %}"> {{ tag }}</a>
 					</span>

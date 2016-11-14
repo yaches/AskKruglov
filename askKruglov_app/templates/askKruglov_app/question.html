@@ -19,11 +19,11 @@
 			<div class = "caption"> 
 				{{ question.title }}
 			</div>
-			{{ question.body }}
+			{{ question.text }}
 			<br>
 			<div class = "tags"> 
 				Tags:
-					{% for tag in question.tags %}
+					{% for tag in question.tags.all %}
 					<span>
 						<a href = "{% url 'askKruglov_app:tag' tag %}"> {{ tag }}</a>
 					</span>
@@ -48,7 +48,7 @@
 			</div>
 		</div>
 		<div class = "col-md-10">
-			{{ answer.body }}
+			{{ answer.text }}
 			<br>
 			<br>
 			<div class="checkbox tags">

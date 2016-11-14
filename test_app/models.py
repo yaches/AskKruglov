@@ -35,3 +35,6 @@ class Author(models.Model):
 	def __unicode__(self):
 		return self.name
 		# return u"{}{}".format(self.name, self.birthday)
+
+class BlaBla(models.Model):
+	bla = models.CharField(max_length = 155)

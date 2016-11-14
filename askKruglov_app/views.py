@@ -3,6 +3,8 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect
 from django.urls import reverse
 
+from .models import *
+
 import random
 
 random.seed()
@@ -28,13 +30,14 @@ def paginate(objects_list, in_page, page_num):
 	try:
 		page = paginator.page(page_num)
 	except:
-		# page = paginator.page(1)
 		raise Exception
 
 	return page
 
 
 def index(request, page_num = 1):
+
+	questions = Question.objects.all()
 
 	try:
 		page = paginate(questions, 5, page_num)
@@ -43,11 +46,14 @@ def index(request, page_num = 1):
 
 	return render(request, 'askKruglov_app/index.html', {
 			'page': page,
-			'members': members,
-			'tags': tags,
+			'members': Profile.objects.best(),
+			'tags': Tag.objects.populars(),
 		})
 
 def hot(request, page_num = 1):
+
+	questions = Question.objects.order_by('-likes')
+	# questions = Question.objects.order_by(-answers_amount())
 
 	try:
 		page = paginate(questions, 5, page_num)
@@ -61,6 +67,8 @@ def hot(request, page_num = 1):
 		})
 
 def tag(request, tag_name, page_num = 1):
+
+	questions = Question.objects.filter(tags__name = tag_name)
 
 	try:
 		page = paginate(questions, 5, page_num)
@@ -76,15 +84,16 @@ def tag(request, tag_name, page_num = 1):
 
 def question(request, question_id, page_num = 1):
 
+	question = Question.objects.get(pk = question_id)
+	answers = question.answer_set.all()
+
 	try:
-		page = paginate(questions, 5, page_num)
+		page = paginate(answers, 5, page_num)
 	except:
 		return redirect('../')
 
-	quest = questions[int(question_id) - 1]
-
 	return render(request, 'askKruglov_app/question.html', {
-			'question': quest,
+			'question': question,
 			'page': page,
 			'id': question_id,
 			'members': members,
@@ -93,24 +102,24 @@ def question(request, question_id, page_num = 1):
 
 def ask(request):
 	return render(request, 'askKruglov_app/ask.html', {
-		'members': members,
-		'tags': tags,
+			'members': members,
+			'tags': tags,
 		})
 
 def login(request):
 	return render(request, 'askKruglov_app/login.html', {
-		'members': members,
-		'tags': tags,
+			'members': members,
+			'tags': tags,
 		})
 
 def signup(request):
 	return render(request, 'askKruglov_app/signup.html', {
-		'members': members,
-		'tags': tags,
+			'members': members,
+			'tags': tags,
 		})
 
 def settings(request):
 	return render(request, 'askKruglov_app/settings.html', {
-		'members': members,
-		'tags': tags,
+			'members': members,
+			'tags': tags,
 		})

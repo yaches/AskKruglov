@@ -69,17 +69,24 @@
 				<div class = "col-md-3 sidebaar">
 					<div class = "tags">
 						<h1> Popular tags: </h1>
-						<!-- {% block popular_tags %} tags {% endblock %} -->
+						
+						{% comment %}
 						{% for tag in tags %}
 							<span class = "tag{{ tag.weight }}"> <a href = "{% url 'askKruglov_app:tag' tag.name %}"> {{ tag.name }} </a> </span> 
 						{% endfor %}
+						{% endcomment %}
+
+						{% for tag in tags %}
+							<span class = "tag{% cycle 1 1 1 2 2 2 3 3 3 4 4 4 %}"> <a href = "{% url 'askKruglov_app:tag' tag.name %}"> {{ tag.name }} </a> </span> 
+						{% endfor %}
+
 					</div>
 
 					<div class = "members">
 						<h1> Best members: </h1>
 							<h3>
 								{% for m in members %}
-									{{ m.number }}. {{ m.name }} <br>
+									{{ m.username }} <br>
 								{% endfor %}
 							</h3>
 					</div>
