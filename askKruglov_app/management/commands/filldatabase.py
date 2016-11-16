@@ -7,8 +7,10 @@ random.seed()
 
 class Command(BaseCommand):
 
-	# def add_arguments(self, parser):
-	#        parser.add_argument('poll_id', nargs='+', type=int)
+	def add_arguments(self, parser):
+	       parser.add_argument('poll_id', nargs='+', type=int)
+	       
+	       
 	def get_random_id(self, id_list):
 		# id_list = obj_set.values_list('id', flat = True)
 		index = random.randint(0, id_list.count() - 1)

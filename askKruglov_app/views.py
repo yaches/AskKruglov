@@ -1,14 +1,19 @@
 from django.shortcuts import render
-from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.core.paginator import Paginator
 from django.urls import reverse
+from django.http import Http404
 
 from .models import *
 
 def paginate(objects_list, page_num, in_page = 5):
 	
 	paginator = Paginator(objects_list, in_page)
-	page = paginator.page(page_num)
+	try:
+		page = paginator.page(page_num)
+	except:
+		page = paginator.page(paginator.num_pages)
 
 	return page
 
@@ -17,10 +22,10 @@ def index(request, page_num = 1):
 
 	questions = Question.objects.all()
 
-	try:
-		page = paginate(questions, page_num)
-	except:
-		return redirect('../')
+	page = paginate(questions, page_num)
+
+	if int(page_num) != int(page.number):
+		return redirect('askKruglov_app:index', page.number)
 
 	return render(request, 'askKruglov_app/index.html', {
 			'page': page,
@@ -32,10 +37,10 @@ def hot(request, page_num = 1):
 
 	questions = Question.objects.hot()
 
-	try:
-		page = paginate(questions, page_num)
-	except:
-		return redirect('../')
+	page = paginate(questions, page_num)
+
+	if int(page_num) != int(page.number):
+		return redirect('askKruglov_app:hot', page.number)
 
 	return render(request, 'askKruglov_app/hot.html', {
 			'page': page,
@@ -46,11 +51,13 @@ def hot(request, page_num = 1):
 def tag(request, tag_name, page_num = 1):
 
 	questions = Question.objects.tag(tag_name)
+	if questions.count() == 0:
+		raise Http404()
 
-	try:
-		page = paginate(questions, page_num)
-	except:
-		return redirect('../')
+	page = paginate(questions, page_num)
+
+	if int(page_num) != int(page.number):
+		return redirect('askKruglov_app:tag', tag_name, page.number)
 
 	return render(request, 'askKruglov_app/tag.html', {
 			'page': page,
@@ -61,13 +68,13 @@ def tag(request, tag_name, page_num = 1):
 
 def question(request, question_id, page_num = 1):
 
-	question = Question.objects.get(pk = question_id)
+	question = get_object_or_404(Question, pk = question_id)
 	answers = question.answer_set.all()
 
-	try:
-		page = paginate(answers, page_num, 2)
-	except:
-		return redirect('../')
+	page = paginate(answers, page_num)
+
+	if int(page_num) != int(page.number):
+		return redirect('askKruglov_app:question', question_id, page.number)
 
 	return render(request, 'askKruglov_app/question.html', {
 			'question': question,
