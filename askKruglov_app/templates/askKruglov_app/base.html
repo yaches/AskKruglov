@@ -86,7 +86,12 @@
 						<h1> Best members: </h1>
 							<h3>
 								{% for m in members %}
-									{{ m.username }} <br>
+								<div class = "col-md-7">
+									{{ m.username }}: 
+								</div>
+								<div class = "col-md-5" align = "center">
+									{{ m.publications }} <br>
+								</div>
 								{% endfor %}
 							</h3>
 					</div>
