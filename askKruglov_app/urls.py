@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from django.views.generic.base import RedirectView
+from django.contrib.auth import views as auth_views
 
 from . import views
 
@@ -14,7 +14,8 @@ urlpatterns = [
 	url(r'^question/(?P<question_id>[0-9]+)/$', views.question, name = 'question'),
 	url(r'^question/(?P<question_id>[0-9]+)/(?P<page_num>[0-9]+)/$', views.question, name = 'question'),
 	url(r'^ask/$', views.ask, name = 'ask'),
-	url(r'^login/$', views.login, name = 'login'),
+	url(r'^login/$', views.login_view, name = 'login'),
+	url(r'^logout/$', views.logout_view, name = 'logout'),
 	url(r'^signup/$', views.signup, name = 'signup'),
 	url(r'^settings/$', views.settings, name = 'settings'),
 ]

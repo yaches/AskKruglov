@@ -12,10 +12,24 @@ class TagManager(models.Manager):
 
 class ProfileManager(UserManager):
 	def best(self, num = 5):
-		return self.annotate(n = Count('answer', distinct = True) + Count('question', distinct = True))\
-		.order_by('-n')[:num]
+		# return self.annotate(n = Count('answer', distinct = True) + Count('question', distinct = True))\
+		# .order_by('-n')[:num]
 		# return self.annotate(n = Count('question')).order_by('-n')[:num]
 		return self.order_by('-publications')[:num]
+
+	def exist_login(self, username):
+		user = Profile.objects.filter(username = username)
+		if (len(user) > 0):
+			return True
+		else:
+			return False
+
+	def exist_email(self, email):
+		user = Profile.objects.filter(email = email)
+		if (len(user) > 0):
+			return True
+		else:
+			return False
 
 
 class QuestionManager(models.Manager):

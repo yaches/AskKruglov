@@ -1,4 +1,4 @@
-{% extends "./base_loginned.html" %}
+{% extends "./base.html" %}
 
 {% block content %}
 <div class = "caption">
@@ -8,18 +8,23 @@
 <br>
 
 <div class = "form">
-	<form class = "form-horizontal" role = "form">
-		<div class = "form-group has-error">
+	<form class = "form-horizontal" method = "POST">
+
+		{% csrf_token %}
+		
+		<div class = "form-group">
 			<div class = "col-md-2">
 				<label class = "control-label"> Title </label>
 			</div>
 			
 			<div class = "col-md-8">
-				<input type = "text" maxlength = "48" class = "form-control input-lg" placeholder = "Enter question" id = "inputError1">
+				{{ form.title }}
+				<!-- <input type = "text" maxlength = "48" class = "form-control input-lg" placeholder = "Enter question" id = "inputError1"> -->
 			</div>
 
 			<div class = "col-md-2">
-				<label class = "control-label">Input Error</label>
+				{{ form.title.errors }}
+				<!-- <label class = "control-label">Input Error</label> -->
 			</div>
 		</div>
 
@@ -29,11 +34,12 @@
 			</div>
 
 			<div class = "col-md-8">
-				<textarea class = "form-control input-lg" maxlength = "256" placeholder = "Enter whole question" rows = "20"></textarea>
+				{{ form.text }}
+				<!-- <textarea class = "form-control input-lg" maxlength = "256" placeholder = "Enter whole question" rows = "20"></textarea> -->
 			</div>
 		</div>
 
-		<div class = "form-group">
+<!-- 		<div class = "form-group">
 			<div class = "col-md-2">
 				<label class = "control-label"> Tags </label>
 			</div>
@@ -41,7 +47,7 @@
 			<div class = "col-md-8">
 				<input type = "text" maxlength = "48" class = "form-control input-lg" placeholder = "Enter tags">
 			</div>
-		</div>
+		</div> -->
 
 		<div class = "form-group">
 			<div class = "col-md-offset-2 col-md-10">

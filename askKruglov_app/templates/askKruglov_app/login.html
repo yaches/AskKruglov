@@ -10,12 +10,14 @@
 
 	<div class = "form">
 
-		<form class = "form-horizontal" role = "form">
+		<form class = "form-horizontal" method = "POST">
+
+			{% csrf_token %}
 			
 			<div class = "form-group">
 				<div class = "col-md-12">
 					<span class = "danger">
-						Sorry, wrong password! 
+						{{ form.non_field_errors }}
 					</span>
 
 				</div>
@@ -27,7 +29,8 @@
 				</div>
 				
 				<div class = "col-md-7">
-					<input required type = "text" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your login here" id = "inputError1">
+					<!-- <input required type = "text" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your login here" id = "inputError1"> -->
+					{{ form.username }}
 				</div>
 
 				<div class = "col-md-3">
@@ -42,7 +45,8 @@
 				</div>
 				
 				<div class = "col-md-7">
-					<input required type = "password" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your password here" id = "inputError1">
+					{{ form.password }}
+					<!-- <input required type = "password" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your password here" id = "inputError1"> -->
 				</div>
 
 				<div class = "col-md-3">

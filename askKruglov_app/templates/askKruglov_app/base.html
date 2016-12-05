@@ -46,15 +46,35 @@
 				</div>
 
 				{% block user_panel %}
-				<div class = "col-md-3 user-panel user-panel-lg">
-					<a href = "{% url 'askKruglov_app:login' %}"> Log In </a>
-					&nbsp; &nbsp;
-					<a href = "{% url 'askKruglov_app:signup' %}"> Register </a>
-				
-					<img src = "" class = "hidden-img">
+
+				{% if user.is_authenticated %}
+					<div class = "col-md-1" id = "avatar">
+						<img src = "/avatar.jpg" class = "img-rounded">
+					</div>
+
+					<div class = "col-md-2 user-panel">
+						<div class = "row">
+							{{ user.username }}
+						</div>
+						<div class = "row">
+							<a href = "{% url 'askKruglov_app:settings' %}"> settings </a>	
+							&nbsp; &nbsp;  
+							<a href = "{% url 'askKruglov_app:logout' %}?next={{ request.path }}"> log out </a>
+						</div>
+					</div>
+				{% else %}
+					<div class = "col-md-3 user-panel user-panel-lg">
+						<a href = "{% url 'askKruglov_app:login' %}?next={{ request.path }}"> Log In </a>
+						&nbsp; &nbsp;
+						<a href = "{% url 'askKruglov_app:signup' %}"> Register </a>
 					
-				</div>
+						<img src = "" class = "hidden-img">
+						
+					</div>
+				{% endif %}
+
 				{% endblock %}
+
 			</div>
 		</div>
 
