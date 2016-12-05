@@ -12,8 +12,8 @@ class TagManager(models.Manager):
 
 class ProfileManager(UserManager):
 	def best(self, num = 5):
-		# return self.annotate(n = Count('answer', distinct = True) + Count('question', distinct = True))\
-		# .order_by('-n')[:num]
+		return self.annotate(n = Count('answer', distinct = True) + Count('question', distinct = True))\
+		.order_by('-n')[:num]
 		# return self.annotate(n = Count('question')).order_by('-n')[:num]
 		return self.order_by('-publications')[:num]
 

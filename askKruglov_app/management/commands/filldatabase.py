@@ -8,11 +8,29 @@ random.seed()
 class Command(BaseCommand):
 
 	def add_arguments(self, parser):
-	       parser.add_argument('poll_id', nargs='+', type=int)
-	       
+
+		parser.add_argument('--tag',
+			action = 'store_true',
+			dest = 'tag',
+			default = False)
+
+		parser.add_argument('--profile',
+			action = 'store_true',
+			dest = 'profile',
+			default = False)
+
+		parser.add_argument('--question',
+			action = 'store_true',
+			dest = 'question',
+			default = False)
+
+		parser.add_argument('--answer',
+			action = 'store_true',
+			dest = 'answer',
+			default = False)
+
 	       
 	def get_random_id(self, id_list):
-		# id_list = obj_set.values_list('id', flat = True)
 		index = random.randint(0, id_list.count() - 1)
 		rand_id = id_list[index]
 		return rand_id
@@ -95,8 +113,16 @@ class Command(BaseCommand):
 					a.save()
 					self.stdout.write('Answer ' + str(j) + ' for question ' + str(i) + ' saved')
 
+
 	def handle(self, *args, **options):
-		self.fill_tags()
-		self.fill_profiles()
-		self.fill_questions()
-		self.fill_answers()
+		if options['tag']:
+			self.fill_tags()
+
+		if options['profile']:
+			self.fill_profiles()
+
+		if options['question']:
+			self.fill_questions()
+
+		if options['answer']:
+			self.fill_answers()

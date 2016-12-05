@@ -6,7 +6,6 @@ from . import views
 app_name = 'askKruglov_app'
 urlpatterns = [
 	url(r'^$', views.index, name = 'index'),
-	# url(r'^$', RedirectView.as_view(url='1')),
 	url(r'^(?P<page_num>[0-9]+)/$', views.index, name = 'index'),
 	url(r'^hot/$', views.hot, name = 'hot'),
 	url(r'^hot/(?P<page_num>[0-9]+)/$', views.hot, name = 'hot'),
