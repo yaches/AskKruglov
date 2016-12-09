@@ -111,6 +111,14 @@ def ask(request):
 	else:
 		form = AskForm()
 
+	# if request.POST:
+	# 	form = QuestionForm(request.user, request.POST)
+	# 	if form.is_valid():
+	# 		question_id, answer_id = form.save()
+	# 		return redirect(reverse('question', kwargs={'question_id': question_id}))
+	# else:
+	# 	form = QuestionForm(request.user)
+
 	return render(request, 'askKruglov_app/ask.html', {
 			'form': form,
 			'members': Profile.objects.best(),
@@ -155,7 +163,7 @@ def signup(request):
 	user = request.user
 
 	if user.is_authenticated():
-		return redirect('askKruglov_app:index')
+		return redirect('askKruglov_app:login')
 
 	if request.method == 'POST':
 		form = SignUpForm(request.POST)
@@ -176,7 +184,25 @@ def signup(request):
 		})
 
 def settings(request):
+
+	user = request.user
+
+	if not user.is_authenticated():
+		return redirect('askKruglov_app:index')
+
+	data = {'username': user.username, 'email': user.email}
+	if request.method == 'POST':
+		form = SettingsForm(request.POST, request.FILES, initial = data)
+		if form.is_valid():
+			form.save(user)
+			data = {'username': user.username, 'email': user.email}
+			form = SettingsForm(initial = data)
+		print (request.FILES)
+	else:
+		form = SettingsForm(initial = data)
+		
 	return render(request, 'askKruglov_app/settings.html', {
+			'form': form,
 			'members': Profile.objects.best(),
 			'tags': Tag.objects.populars(),
 		})

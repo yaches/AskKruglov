@@ -10,6 +10,13 @@ class TagManager(models.Manager):
 	def populars(self, num = 12):
 		return self.annotate(q = Count('question')).order_by('-q')[:num]
 
+	def tag_by_name(self, tag_name):
+		tags = Tag.objects.filter(name = tag_name)
+		if len(tags) > 0:
+			return tags[0]
+		else:
+			return None
+
 class ProfileManager(UserManager):
 	def best(self, num = 5):
 		# return self.annotate(n = Count('answer', distinct = True) + Count('question', distinct = True))\
@@ -19,7 +26,7 @@ class ProfileManager(UserManager):
 
 	def exist_login(self, username):
 		user = Profile.objects.filter(username = username)
-		if (len(user) > 0):
+		if len(user) > 0:
 			return True
 		else:
 			return False
@@ -97,13 +104,17 @@ class Profile(User):
 	# avatar = models.CharField(max_length = 255, blank = True)
 	# avatar = models.ImageField(upload_to = '')
 
+	avatar = models.ImageField(upload_to = 'avatars/', blank = False, max_length = 1000)
 	# def get_filename(self):
 
 	objects = ProfileManager()
 
+	def avatar_path(self, default = False):
+		# if default:
+		# 	return './static/avatars/'
+		# else:
+		return './static/avatars/' + str(self.id) + '/'
+
 	def recalculate(self):
 		self.publications = self.question_set.count() + self.answer_set.count()
 		self.save()
-
-	def __str__(self):
-		return self.username

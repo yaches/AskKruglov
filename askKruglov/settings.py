@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'askKruglov_app',
     'test_app',
+    # 'avatar',
 ]
 
 MIDDLEWARE = [
@@ -121,4 +122,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = BASE_DIR + '/askKruglov_app/uploads/'
+MEDIA_ROOT = BASE_DIR + '/askKruglov_app/static/'
