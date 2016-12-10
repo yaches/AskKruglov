@@ -108,6 +108,9 @@ class SignUpForm(forms.Form):
 		'class': 'form-control input-lg',
 		'placeholder': 'Repeat your password here'
 		}))
+	avatar = forms.ImageField(required = False, widget = forms.FileInput(attrs = {
+		'class': 'form-control input-lg',
+		}))
 
 	def clean_username(self):
 		username = self.cleaned_data['username']
@@ -132,8 +135,12 @@ class SignUpForm(forms.Form):
 		username = data['username']
 		email = data['email']
 		password = data['password']
-		profile = Profile.objects.create_user(username = username, email = email, \
-			password = password, nickname = nickname)
+		if self.cleaned_data['avatar'] is not None:
+			profile = Profile.objects.create_user(username = username, email = email, \
+				password = password, avatar = self.cleaned_data['avatar'])
+		else:
+			profile = Profile.objects.create_user(username = username, email = email, \
+				password = password)
 
 
 class SettingsForm(forms.Form):
@@ -144,7 +151,9 @@ class SettingsForm(forms.Form):
 	email = forms.EmailField(widget = forms.EmailInput(attrs = {
 		'class': 'form-control input-lg',
 		}))
-	avatar = forms.ImageField()
+	avatar = forms.ImageField(required = False, widget = forms.FileInput(attrs = {
+		'class': 'form-control input-lg',
+		}))
 
 	def clean_username(self):
 		username = self.cleaned_data['username']
@@ -166,7 +175,10 @@ class SettingsForm(forms.Form):
 		data = self.cleaned_data
 		user.username = data['username']
 		user.email = data['email']
-		user.avatar = data['avatar']
+		# user.save()
+		if data['avatar'] is not None:
+			user.avatar = data['avatar']
+		# print(data['avatar'])
 		user.save()
 
 

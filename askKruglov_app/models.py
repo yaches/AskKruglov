@@ -101,19 +101,9 @@ class Tag(models.Model):
 
 class Profile(User):
 	publications = models.IntegerField(default = 0)
-	# avatar = models.CharField(max_length = 255, blank = True)
-	# avatar = models.ImageField(upload_to = '')
-
-	avatar = models.ImageField(upload_to = 'avatars/', blank = False, max_length = 1000)
-	# def get_filename(self):
+	avatar = models.ImageField(upload_to = 'avatars/%Y/%m/%d/%H/', max_length = 100, default = 'avatars/avatar.jpg')
 
 	objects = ProfileManager()
-
-	def avatar_path(self, default = False):
-		# if default:
-		# 	return './static/avatars/'
-		# else:
-		return './static/avatars/' + str(self.id) + '/'
 
 	def recalculate(self):
 		self.publications = self.question_set.count() + self.answer_set.count()

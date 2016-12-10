@@ -9,7 +9,7 @@
 	<br>
 
 	<div class = "form">
-		<form class = "form-horizontal" method = "POST">
+		<form enctype = "multipart/form-data" class = "form-horizontal" method = "POST">
 
 			{% csrf_token %}
 			
@@ -17,7 +17,6 @@
 				<div class = "col-md-12">
 					<span class = "danger">
 						{{ form.non_field_errors }}
-						<!-- Sorry, this e-mail address already registered!  -->
 					</span>
 
 				</div>
@@ -30,12 +29,10 @@
 				
 				<div class = "col-md-7">
 					{{ form.username }}
-					<!-- <input required type = "text" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your login here"> -->
 				</div>
 
 				<div class = "col-md-3">
 					{{ form.username.errors }}
-					<!-- <label class = "control-label">Input Error</label> -->
 				</div>
 
 			</div>
@@ -47,12 +44,10 @@
 				
 				<div class = "col-md-7">
 					{{ form.email }}
-					<!-- <input required type = "text" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your e-mail here"> -->
 				</div>
 
 				<div class = "col-md-3">
 					{{ form.email.errors }}
-					<!-- <label class = "control-label">Input Error</label> -->
 				</div>
 
 			</div>
@@ -79,12 +74,10 @@
 				
 				<div class = "col-md-6">
 					{{ form.password }}
-					<!-- <input required type = "password" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your password here"> -->
 				</div>
 
 				<div class = "col-md-3">
 					{{ form.password.errors }}
-					<!-- <label class = "control-label">Input Error</label> -->
 				</div>
 
 			</div>
@@ -96,33 +89,28 @@
 				
 				<div class = "col-md-6">
 					{{ form.repeat_password }}
-					<!-- <input required type = "password" maxlength = "48" class = "form-control input-lg" placeholder = "Repeat your password here"> -->
 				</div>
 
 				<div class = "col-md-3">
 					{{ form.repeat_password.errors }}
-					<!-- <label class = "control-label">Input Error</label> -->
 				</div>
 
 			</div>
 
-<!-- 			<div class = "form-group">
+			<div class = "form-group">
 				<div class = "col-md-2">
 					<label class = "control-label"> Avatar </label>
 				</div>
 				
-				<div class = "col-md-7 input-group">
-					<input type = "text" class = "form-control input-lg" placeholder = "Enter the file address">
-					<span class="input-group-btn">
-						<button class="btn btn-lg" type="button" id = "choose"> Choose </button>
-					</span>
+				<div class = "col-md-7">
+					{{ form.avatar }}
 				</div>
 
 				<div class = "col-md-3">
-					<label class = "control-label">Input Error</label>
+					{{ form.avatar.errors }}
 				</div>
 
-			</div> -->
+			</div>
 
 			<div class = "form-group">
 				<div class = "col-md-offset-2 col-md-10">

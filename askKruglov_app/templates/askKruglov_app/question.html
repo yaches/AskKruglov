@@ -5,7 +5,7 @@
 	<div class = "row">
 		<div class = "col-md-3">
 			<div class = "author">
-				<img src = "/avatar.jpg" alt = "Avatar" class = "img-rounded img-thumbnail">
+				<img src = "{{ question.author.avatar.url }}" alt = "Avatar" class = "img-rounded img-thumbnail">
 				{{ question.author }}
 				<div class = "btn-group btn-group-lg">
 					<button type = "button" class = "btn btn-default"> <span class = "glyphicon glyphicon-arrow-down"> </span> </button>
@@ -38,7 +38,7 @@
 	<div class = "row">
 		<div class = "col-md-2">
 			<div class = "author">
-				<img src = "/avatar.jpg" alt = "Avatar" class = "img-rounded img-thumbnail">
+				<img src = "{{ answer.author.avatar.url }}" alt = "Avatar" class = "img-rounded img-thumbnail">
 				{{ answer.author }}
 				<div class = "btn-group btn-group-sm">
 					<button type = "button" class = "btn btn-default"> <span class = "glyphicon glyphicon-arrow-down"> </span> </button>
@@ -73,7 +73,7 @@
 	<div class = "row">
 		<div class = "col-md-2">
 			<div class = "author">
-				<img src = "/avatar.jpg" alt = "Avatar" class = "img-rounded img-thumbnail">
+				<img src = "{{ user.profile.avatar.url }}" alt = "Avatar" class = "img-rounded img-thumbnail">
 			 	{{ user.username }}
 			</div>
 		</div>
