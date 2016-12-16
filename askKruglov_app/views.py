@@ -234,7 +234,10 @@ def like_question(request):
 			like = QuestionLike(profile = user.profile, question = question, like_type = like_type)
 			like.save()
 
-	return JsonResponse({'status': 'ok'})
+		return JsonResponse({'status': 'ok', 'likes': question.likes()})
+
+	return redirect('askKruglov_app:index')
+
 
 def like_answer(request):
 
@@ -260,4 +263,28 @@ def like_answer(request):
 			like = AnswerLike(profile = user.profile, answer = answer, like_type = like_type)
 			like.save()
 
-	return JsonResponse({'status': 'ok'})
+		return JsonResponse({'status': 'ok', 'likes': answer.likes()})
+
+	return redirect('askKruglov_app:index')
+
+
+def correct_answer(request):
+
+	user = request.user
+
+	if request.method == "POST":
+		answer_id = request.POST.get('id', 0)
+
+		try:
+			answer = Answer.objects.get(pk = answer_id)
+		except:
+			return JsonResponse({'status': 'error'})
+
+		if user.profile == answer.author:
+			answer.correct = not answer.correct
+			answer.save()
+			return JsonResponse({'status': 'ok'})
+		else:
+			return JsonResponse({'status': 'error'})
+
+	return redirect('askKruglov_app:index')

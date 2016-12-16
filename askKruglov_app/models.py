@@ -41,7 +41,8 @@ class ProfileManager(UserManager):
 
 class QuestionManager(models.Manager):
 	def hot(self):
-		return self.order_by('-likes')
+		return self.annotate(n = Count('questionslike')).order_by('-n')[:num]
+		# return self.order_by('-likes')
 
 	def tag(self, tag_name):
 		return self.filter(tags__name = tag_name)
@@ -87,6 +88,7 @@ class Answer(models.Model):
 	published_time = models.DateTimeField(auto_now_add = True)
 	author = models.ForeignKey('Profile')
 	question = models.ForeignKey('Question')
+	correct = models.BooleanField(default = False)
 
 	class Meta:
 		ordering = ['published_time']
