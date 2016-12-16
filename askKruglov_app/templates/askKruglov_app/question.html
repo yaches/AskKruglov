@@ -8,9 +8,9 @@
 				<img src = "{{ question.author.avatar.url }}" alt = "Avatar" class = "img-rounded img-thumbnail">
 				{{ question.author }}
 				<div class = "btn-group btn-group-lg">
-					<button type = "button" class = "btn btn-default"> <span class = "glyphicon glyphicon-arrow-down"> </span> </button>
-					<button type = "button" class = "btn btn-default disabled"> {{ question.likes }} </button>
-					<button type = "button" class = "btn btn-default"> <span class = "glyphicon glyphicon-arrow-up"> </span> </button>
+					<button type = "button" class = "btn btn-default js-like-question" data-type = "0" data-id = "{{ question.id }}"> <span class = "glyphicon glyphicon-arrow-down"> </span> </button>
+					<button type = "button" class = "btn btn-default disabled"> {{ question.likes 	}} </button>
+					<button type = "button" class = "btn btn-default js-like-question" data-type = "1" data-id = "{{ question.id }}"> <span class = "glyphicon glyphicon-arrow-up"> </span> </button>
 				</div>
 			</div>
 		</div>
@@ -22,7 +22,6 @@
 			{{ question.text }}
 			<br>
 			<div class = "tags"> 
-				<!-- Tags: -->
 					{% for tag in question.tags.all %}
 					<span>
 						<a href = "{% url 'askKruglov_app:tag' tag %}"> {{ tag }}</a>
@@ -41,9 +40,9 @@
 				<img src = "{{ answer.author.avatar.url }}" alt = "Avatar" class = "img-rounded img-thumbnail">
 				{{ answer.author }}
 				<div class = "btn-group btn-group-sm">
-					<button type = "button" class = "btn btn-default"> <span class = "glyphicon glyphicon-arrow-down"> </span> </button>
+					<button type = "button" class = "btn btn-default js-like-answer" data-type = "0" data-id = "{{ answer.id }}"> <span class = "glyphicon glyphicon-arrow-down"> </span> </button>
 					<button type = "button" class = "btn btn-default disabled"> {{ answer.likes }} </button>
-					<button type = "button" class = "btn btn-default"> <span class = "glyphicon glyphicon-arrow-up"> </span> </button>
+					<button type = "button" class = "btn btn-default js-like-answer" data-type = "1" data-id = "{{ answer.id }}"> <span class = "glyphicon glyphicon-arrow-up"> </span> </button>
 				</div>
 			</div>
 		</div>

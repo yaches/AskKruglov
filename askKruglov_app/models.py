@@ -46,10 +46,10 @@ class QuestionManager(models.Manager):
 	def tag(self, tag_name):
 		return self.filter(tags__name = tag_name)
 
+
 class Question(models.Model):
 	title = models.CharField(max_length = 255)
 	text = models.TextField()
-	likes = models.PositiveIntegerField(default = 0)
 	published_time = models.DateTimeField(auto_now_add = True)
 	author = models.ForeignKey('Profile')
 	tags = models.ManyToManyField('Tag')
@@ -61,6 +61,16 @@ class Question(models.Model):
 
 	def answers_amount(self):
 		return self.answer_set.count()
+
+	def likes(self):
+		all_likes = self.questionlike_set.all()
+		result = 0
+		for l in all_likes:
+			if l.like_type:
+				result +=1
+			else:
+				result -=1
+		return result
 
 	def save(self, *args, **kwargs):
 		if not self in self.author.question_set.all():
@@ -74,13 +84,22 @@ class Question(models.Model):
 
 class Answer(models.Model):
 	text = models.TextField()
-	likes = models.PositiveIntegerField(default = 0)
 	published_time = models.DateTimeField(auto_now_add = True)
 	author = models.ForeignKey('Profile')
 	question = models.ForeignKey('Question')
 
 	class Meta:
 		ordering = ['published_time']
+
+	def likes(self):
+		all_likes = self.answerlike_set.all()
+		result = 0
+		for l in all_likes:
+			if l.like_type:
+				result +=1
+			else:
+				result -=1
+		return result
 
 	def save(self, *args, **kwargs):
 		if not self in self.author.question_set.all():
@@ -108,3 +127,20 @@ class Profile(User):
 	def recalculate(self):
 		self.publications = self.question_set.count() + self.answer_set.count()
 		self.save()
+
+class QuestionLike(models.Model):
+	profile = models.ForeignKey('Profile')
+	question = models.ForeignKey('Question')
+	like_type = models.BooleanField(default = True)
+
+	class Meta:
+		unique_together = (('profile', 'question'),)
+
+
+class AnswerLike(models.Model):
+	profile = models.ForeignKey('Profile')
+	answer = models.ForeignKey('Answer')
+	like_type = models.BooleanField(default = True)
+
+	class Meta:
+		unique_together = (('profile', 'answer'),)

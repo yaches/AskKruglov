@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.core.paginator import Paginator
 from django.urls import reverse
 from django.http import Http404
+from django.http import JsonResponse
 
 from django.contrib.auth import *
 
@@ -101,7 +102,9 @@ def ask(request):
 
 	user = request.user
 	if not user.is_authenticated():
-		return redirect('askKruglov_app:login')
+		next_url = reverse('askKruglov_app:ask')
+		login_url = reverse('askKruglov_app:login')
+		return redirect(login_url + '?next=' + next_url)
 
 	if request.method == 'POST':
 		form = AskForm(request.POST)
@@ -206,3 +209,55 @@ def settings(request):
 			'members': Profile.objects.best(),
 			'tags': Tag.objects.populars(),
 		})
+
+def like_question(request):
+	
+	user = request.user
+
+	if not user.is_authenticated():
+		return JsonResponse({'status': 'error'})
+	
+	if request.method == "POST":
+		question_id = request.POST.get('id', 0)
+		like_type = request.POST.get('type', 1)
+
+		try:
+			question = Question.objects.get(pk = question_id)
+		except:
+			return JsonResponse({'status': 'error'})
+
+		try:
+			like = QuestionLike.objects.get(profile = user.profile, question = question)
+			like.like_type = like_type
+			like.save()
+		except:
+			like = QuestionLike(profile = user.profile, question = question, like_type = like_type)
+			like.save()
+
+	return JsonResponse({'status': 'ok'})
+
+def like_answer(request):
+
+	user = request.user
+
+	if not user.is_authenticated():
+		return JsonResponse({'status': 'error'})
+	
+	if request.method == "POST":
+		answer_id = request.POST.get('id', 0)
+		like_type = request.POST.get('type', 1)
+
+		try:
+			answer = Answer.objects.get(pk = answer_id)
+		except:
+			return JsonResponse({'status': 'error'})
+
+		try:
+			like = AnswerLike.objects.get(profile = user.profile, answer = answer)
+			like.like_type = like_type
+			like.save()
+		except:
+			like = AnswerLike(profile = user.profile, answer = answer, like_type = like_type)
+			like.save()
+
+	return JsonResponse({'status': 'ok'})

@@ -8,6 +8,8 @@
 		{% endblock %}
 	</div>
 
+	{% csrf_token %}
+
 	{% for question in page %}
 	<div class = "message">
 		<div class = "row">
@@ -16,9 +18,9 @@
 					<img src = "{{ question.author.avatar.url }}" alt = "Avatar" class = "img-rounded img-thumbnail">
 					{{ question.author.username }}
 					<div class = "btn-group btn-group-sm">
-						<button type = "button" class = "btn btn-default"> <span class = "glyphicon glyphicon-arrow-down"> </span> </button>
-						<button type = "button" class = "btn btn-default disabled"> {{ question.likes }} </button>
-						<button type = "button" class = "btn btn-default"> <span class = "glyphicon glyphicon-arrow-up"> </span> </button>
+						<button type = "button" class = "btn btn-default js-like-question" data-type = "0", data-id = "{{ question.id }}"> <span class = "glyphicon glyphicon-arrow-down"> </span> </button>
+						<button type = "button" class = "btn btn-default disabled likes"> {{ question.likes }} </button>
+						<button type = "button" class = "btn btn-default js-like-question" data-type = "1", data-id = "{{ question.id }}" > <span class = "glyphicon glyphicon-arrow-up"> </span> </button>
 					</div>
 				</div>
 			</div>

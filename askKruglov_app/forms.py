@@ -1,8 +1,9 @@
 from django import forms
-
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import *
 from django.core import validators
+
+import re
 
 from .models import *
 
@@ -48,10 +49,17 @@ class AskForm(forms.Form):
 		'placeholder': 'Enter your question here',
 		'rows': 20,
 		}))
-	tags = CommaSeparatedCharField(widget = forms.TextInput(attrs = {
+	tags = CommaSeparatedCharField(required = False, widget = forms.TextInput(attrs = {
 		'class': 'form-control input-lg',
 		'placeholder': 'Enter the tags separated by comma'
 		}))
+
+	def clean_tags(self):
+		tags = self.cleaned_data['tags']
+		for t in tags:
+			if re.search(r'\s', t):
+				raise forms.ValidationError('One or more tags contains spaces')
+		return tags
 
 	def save(self, user_id):
 		data = self.cleaned_data
