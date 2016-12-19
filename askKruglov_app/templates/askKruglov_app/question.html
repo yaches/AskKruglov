@@ -71,13 +71,13 @@
 				{% if answer.correct %}
 				<div class="checkbox tags">
 					<label>
-						<input type="checkbox" class = "correct" data-id = "{{ answer.id }}" checked> Correct! </input>
+						<input type="checkbox" class = "correct" id = "{{ answer.id }}-correct" data-id = "{{ answer.id }}" checked> Correct! </input>
 					</label>
 				</div>
 				{% else %}
 				<div class="checkbox tags">
 					<label>
-						<input type="checkbox" class = "correct" data-id = "{{ answer.id }}" > Correct! </input>
+						<input type="checkbox" class = "correct" id = "{{ answer.id }}-correct" data-id = "{{ answer.id }}" > Correct! </input>
 					</label>
 				</div>
 				{% endif %}

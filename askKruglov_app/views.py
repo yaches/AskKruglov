@@ -114,14 +114,6 @@ def ask(request):
 	else:
 		form = AskForm()
 
-	# if request.POST:
-	# 	form = QuestionForm(request.user, request.POST)
-	# 	if form.is_valid():
-	# 		question_id, answer_id = form.save()
-	# 		return redirect(reverse('question', kwargs={'question_id': question_id}))
-	# else:
-	# 	form = QuestionForm(request.user)
-
 	return render(request, 'askKruglov_app/ask.html', {
 			'form': form,
 			'members': Profile.objects.best(),
@@ -198,9 +190,6 @@ def settings(request):
 		form = SettingsForm(request.POST, request.FILES, initial = data)
 		if form.is_valid():
 			form.save(user.profile)
-			# user = request.user
-			# data = {'username': user.username, 'email': user.email}
-			# form = SettingsForm(initial = data)
 	else:
 		form = SettingsForm(initial = data)
 		
@@ -219,7 +208,7 @@ def like_question(request):
 	
 	if request.method == "POST":
 		question_id = request.POST.get('id', 0)
-		like_type = request.POST.get('type', 1)
+		like_type = bool(int(request.POST.get('type', 1)))
 
 		try:
 			question = Question.objects.get(pk = question_id)
@@ -228,8 +217,11 @@ def like_question(request):
 
 		try:
 			like = QuestionLike.objects.get(profile = user.profile, question = question)
-			like.like_type = like_type
-			like.save()
+			if like.like_type == like_type:
+				like.delete()
+			else:
+				like.like_type = like_type
+				like.save()
 		except:
 			like = QuestionLike(profile = user.profile, question = question, like_type = like_type)
 			like.save()
@@ -248,7 +240,7 @@ def like_answer(request):
 	
 	if request.method == "POST":
 		answer_id = request.POST.get('id', 0)
-		like_type = request.POST.get('type', 1)
+		like_type = bool(int(request.POST.get('type', 1)))
 
 		try:
 			answer = Answer.objects.get(pk = answer_id)
@@ -257,8 +249,11 @@ def like_answer(request):
 
 		try:
 			like = AnswerLike.objects.get(profile = user.profile, answer = answer)
-			like.like_type = like_type
-			like.save()
+			if like.like_type == like_type:
+				like.delete()
+			else:
+				like.like_type = like_type
+				like.save()
 		except:
 			like = AnswerLike(profile = user.profile, answer = answer, like_type = like_type)
 			like.save()
@@ -280,10 +275,10 @@ def correct_answer(request):
 		except:
 			return JsonResponse({'status': 'error'})
 
-		if user.profile == answer.author:
+		if user.profile == answer.question.author:
 			answer.correct = not answer.correct
 			answer.save()
-			return JsonResponse({'status': 'ok'})
+			return JsonResponse({'status': 'ok', 'correct': answer.correct})
 		else:
 			return JsonResponse({'status': 'error'})
 

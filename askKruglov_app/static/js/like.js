@@ -45,5 +45,17 @@ $('.correct').on('click', function() {
 			csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
 			id: $check.data('id')	
 		}
+	}).done(function(resp) {
+		if (resp && resp.status == 'ok')
+		{
+			// if (resp.correct == true)
+			// {
+			// 	// $(this).css('color', 'green');
+			// 	// document.getElementsByClassName('correct')[0].style.color = 'green';
+			// 	document.getElementById($check.data('id') + '-correct').innerHTML = 'lalala';
+			// 	console.log('222');
+			// }
+			// console.log('111');
+		}
 	})
-})
+});
