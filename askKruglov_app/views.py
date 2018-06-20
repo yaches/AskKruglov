@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -226,7 +228,8 @@ def like_question(request):
 			like = QuestionLike(profile = user.profile, question = question, like_type = like_type)
 			like.save()
 
-		return JsonResponse({'status': 'ok', 'likes': question.likes()})
+		question.recalculate()
+		return JsonResponse({'status': 'ok', 'likes': question.likes})
 
 	return redirect('askKruglov_app:index')
 
@@ -258,7 +261,8 @@ def like_answer(request):
 			like = AnswerLike(profile = user.profile, answer = answer, like_type = like_type)
 			like.save()
 
-		return JsonResponse({'status': 'ok', 'likes': answer.likes()})
+		answer.recalculate()
+		return JsonResponse({'status': 'ok', 'likes': answer.likes})
 
 	return redirect('askKruglov_app:index')
 

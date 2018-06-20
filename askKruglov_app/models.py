@@ -41,8 +41,8 @@ class ProfileManager(UserManager):
 
 class QuestionManager(models.Manager):
 	def hot(self):
-		return self.annotate(n = Count('questionslike')).order_by('-n')[:num]
-		# return self.order_by('-likes')
+		# return self.annotate(n = Count('questionlike')).order_by('-n')
+		return self.order_by('-likes')
 
 	def tag(self, tag_name):
 		return self.filter(tags__name = tag_name)
@@ -54,6 +54,7 @@ class Question(models.Model):
 	published_time = models.DateTimeField(auto_now_add = True)
 	author = models.ForeignKey('Profile')
 	tags = models.ManyToManyField('Tag')
+	likes = models.IntegerField(default = 0)
 
 	objects = QuestionManager()
 
@@ -63,7 +64,7 @@ class Question(models.Model):
 	def answers_amount(self):
 		return self.answer_set.count()
 
-	def likes(self):
+	def recalculate(self):
 		all_likes = self.questionlike_set.all()
 		result = 0
 		for l in all_likes:
@@ -71,7 +72,8 @@ class Question(models.Model):
 				result +=1
 			else:
 				result -=1
-		return result
+		self.likes = result
+		self.save()
 
 	def save(self, *args, **kwargs):
 		if not self in self.author.question_set.all():
@@ -79,7 +81,7 @@ class Question(models.Model):
 			self.author.save()
 		super(Question, self).save(*args, **kwargs)
 
-	def __str__(self):
+	def __unicode__(self):
 		return self.title
 
 
@@ -89,11 +91,12 @@ class Answer(models.Model):
 	author = models.ForeignKey('Profile')
 	question = models.ForeignKey('Question')
 	correct = models.BooleanField(default = False)
+	likes = models.IntegerField(default = 0)
 
 	class Meta:
 		ordering = ['published_time']
 
-	def likes(self):
+	def recalculate(self):
 		all_likes = self.answerlike_set.all()
 		result = 0
 		for l in all_likes:
@@ -101,7 +104,8 @@ class Answer(models.Model):
 				result +=1
 			else:
 				result -=1
-		return result
+		self.likes = result
+		self.save()
 
 	def save(self, *args, **kwargs):
 		if not self in self.author.question_set.all():
@@ -116,7 +120,7 @@ class Tag(models.Model):
 
 	objects = TagManager()
 
-	def __str__(self):
+	def __unicode__(self):
 		return self.name
 
 
