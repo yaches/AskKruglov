@@ -1,9 +1,0 @@
-{% for question in questions %}
-    Author: {{ question.author }} <br>
-    Title: {{ question.title }} <br>
-    Body: {{ question.body }} <br>
-{% endfor %}
-
-{% load i18n %}
-{% url 'test_app:index' as page_url %}
-{% include "./paginator.html" %}

@@ -1,0 +1,67 @@
+{% extends "./base.html" %}
+
+{% block content %}
+	<div class = "caption">
+		{% block caption %}
+		<span> New Questions </span>
+		<span class = "extra"> <a href = "{% url 'askMe_app:hot' %}"> Hot Questions </a> </span>
+		{% endblock %}
+	</div>
+
+	{% csrf_token %}
+
+	{% for question in page %}
+	<div class = "message">
+		<div class = "row">
+			<div class = "col-md-2">
+				<div class = "author">
+					<img src = "{{ question.author.avatar.url }}" alt = "Avatar" class = "img-rounded img-thumbnail">
+					<br>
+					{{ question.author.username }}
+					<br>
+					<div class = "btn-group btn-group-sm">
+
+						<button type = "button" class = "btn btn-default js-like-question" data-type = "0" data-id = "{{ question.id }}"> 
+							<span class = "glyphicon glyphicon-arrow-down"> </span> 
+						</button>
+						
+						<button type = "button" class = "btn btn-default disabled" id = "question-{{ question.id }}-likes"> {{ question.likes }} </button>
+						
+						<button type = "button" class = "btn btn-default js-like-question" data-type = "1" data-id = "{{ question.id }}"> 
+							<span class = "glyphicon glyphicon-arrow-up"> </span> 
+						</button>
+					
+					</div>
+				</div>
+			</div>
+			<div class = "col-md-10">
+				<div class = "caption">
+					<a href = "{% url 'askMe_app:question' question.id %}"> 
+						{{ question.title }}
+					</a>
+				</div>
+				{{ question.text }} 
+				<br>
+				<a class = "number" href = "{% url 'askMe_app:question' question.id %}"> 
+					<h4> Answer ({{ question.answers_amount }}) </h4> 
+				</a> 
+				<div class = "tags"> 
+					Tags:
+					{% for tag in question.tags.all %}
+					<span>
+						<a href = "{% url 'askMe_app:tag' tag %}"> {{ tag }}</a>
+					</span>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% endfor %}
+
+	{% block paginator %}
+		{% url "askMe_app:index" as page_url %} 
+		{% include "./paginator.html" %}
+	{% endblock %}
+
+{% endblock %}

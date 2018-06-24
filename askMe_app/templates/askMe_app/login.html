@@ -1,0 +1,78 @@
+{% extends "./base.html" %}
+
+{% block content %}
+<div class = "login-form">
+	<div class = "caption">
+		Log In
+	</div>
+
+	<br>
+
+	<div class = "form">
+
+		<form class = "form-horizontal" method = "POST">
+
+			{% csrf_token %}
+			
+			<div class = "form-group">
+				<div class = "col-md-12">
+					<span class = "danger">
+						{{ form.non_field_errors }}
+					</span>
+
+				</div>
+			</div>
+
+			<div class = "form-group">
+				<div class = "col-md-2">
+					<label class = "control-label"> Login </label>
+				</div>
+				
+				<div class = "col-md-7">
+					<!-- <input required type = "text" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your login here" id = "inputError1"> -->
+					{{ form.username }}
+				</div>
+
+				<div class = "col-md-3">
+					{{ form.username.errors }}
+					<!-- <label class = "control-label">Input Error</label> -->
+				</div>
+
+			</div>
+
+			<div class = "form-group">
+				<div class = "col-md-2">
+					<label class = "control-label"> Password </label>
+				</div>
+				
+				<div class = "col-md-7">
+					{{ form.password }}
+					<!-- <input required type = "password" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your password here" id = "inputError1"> -->
+				</div>
+
+				<div class = "col-md-3">
+					<!-- <label class = "control-label">Input Error</label> -->
+				</div>
+
+			</div>
+
+			<div class = "form-group">
+				<div class = "col-md-offset-2 col-md-2">
+					<button type = "submit" class = "btn btn-lg btn-default">
+						<div class = "button-text"> Log In! </div>
+					</button>
+				</div>
+
+				<div class = "col-md-5" id = "new-account">
+					<a href = "{% url 'askMe_app:signup' %}">
+						<button type = "button" class = "btn btn-lg btn-default">
+							<div class = "button-text"> Create new account </div>
+						</button>
+					</a>
+				</div>
+			</div>
+
+		</form>
+	</div>	
+</div>
+{% endblock %}

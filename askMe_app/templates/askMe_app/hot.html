@@ -1,0 +1,11 @@
+{% extends "./index.html" %}
+
+{% block caption %}
+<span class = "extra"> <a href = "{% url 'askMe_app:index' %}"> New Questions </a> </span>
+<span> Hot Questions </span>
+{% endblock %}
+
+{% block paginator %}
+	{% url "askMe_app:hot" as page_url %} 
+	{% include "./paginator.html" %}
+{% endblock %}

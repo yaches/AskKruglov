@@ -1,0 +1,101 @@
+{% extends "./base.html" %}
+
+{% block content %}
+<div class = "login-form">
+	<div class = "caption">
+		Settings
+	</div>
+
+	<br>
+
+	<div class = "form">
+		<form enctype = "multipart/form-data" class = "form-horizontal" method = "POST">
+			
+			{% csrf_token %}
+
+			<div class = "form-group">
+				<div class = "col-md-2">
+					<label class = "control-label"> Login </label>
+				</div>
+				
+				<div class = "col-md-7">
+					<!-- <input disabled type = "text" maxlength = "48" class = "form-control input-lg" value = "yaches"> -->
+					{{ form.username }}
+				</div>
+
+				<div class = "col-md-3">
+					{{ form.username.errors }}
+					<!-- <label class = "control-label">Input Error</label> -->
+				</div>
+
+			</div>
+
+			<div class = "form-group">
+				<div class = "col-md-2">
+					<label class = "control-label"> E-Mail </label>
+				</div>
+				
+				<div class = "col-md-7">
+					{{ form.email }}
+					<!-- <input required type = "text" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your e-mail here" value = "drpepper@mail.ru"> -->
+				</div>
+
+				<div class = "col-md-3">
+					{{ form.email.errors }}
+					<!-- <label class = "control-label">Input Error</label> -->
+				</div>
+
+			</div>
+
+<!-- 			<div class = "form-group">
+				<div class = "col-md-2">
+					<label class = "control-label"> NickName </label>
+				</div>
+				
+				<div class = "col-md-7">
+					<input required type = "text" maxlength = "48" class = "form-control input-lg" placeholder = "Enter your nickname here" value = "yaches">
+				</div>
+
+				<div class = "col-md-3">
+					<label class = "control-label">Input Error</label>
+				</div>
+
+			</div> -->
+
+			<div class = "form-group">
+				<div class = "col-md-2">
+					<label class = "control-label"> Avatar </label>
+				</div>
+
+				<div class = "col-md-7">
+					<img src = "{{ user.profile.avatar.url }}" class = "img-rounded img-thumbnail">
+				</div>
+
+				<div class = "col-md-3">
+					<!-- <label class = "control-label">Input Error</label> -->
+				</div>
+
+			</div>
+
+			<div class = "form-group">
+				<div class = "col-md-7 col-md-offset-2">
+					{{ form.avatar }}
+				</div>
+
+				<div class = "col-md-3">
+					{{ form.avatar.errors }}
+				</div>
+
+			</div>
+
+			<div class = "form-group">
+				<div class = "col-md-offset-2 col-md-10">
+					<button type = "submit" class = "btn btn-lg btn-default">
+						<div class = "button-text"> Save </div>
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>	
+</div>
+{% endblock %}
