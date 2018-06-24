@@ -12,6 +12,9 @@ from django.contrib.auth import *
 
 from .models import *
 from .forms import *
+from .documents import *
+
+from elasticsearch_dsl.query import MultiMatch, Match
 
 def paginate(objects_list, page_num, in_page = 5):
 	
@@ -287,3 +290,22 @@ def correct_answer(request):
 			return JsonResponse({'status': 'error'})
 
 	return redirect('askKruglov_app:index')
+
+def search(request, page_num = 1):
+	query = request.GET.get('query')
+
+	match = MultiMatch(query = query, fields=['title', 'text'])
+
+	questions = QuestionDocument.search().query(match).to_queryset()
+
+	page = paginate(questions, page_num)
+
+	if int(page_num) != int(page.number):
+		return redirect('askKruglov_app:search', page.number)
+
+	return render(request, 'askKruglov_app/index.html', {
+			'page': page,
+			'members': Profile.objects.best(),
+			'tags': Tag.objects.populars(),
+			'search_value': query,
+		})

@@ -227,3 +227,7 @@ form img {
 	text-align: right;
 	/*padding-top: 10px;*/
 }
+
+.btn-warning {
+	color: yellow;
+}

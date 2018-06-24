@@ -31,15 +31,22 @@
 				</div>
 
 				<div class = "col-md-5 align">
-					<form role = "form">
-						<input type = "text" class = "form-control" placeholder = "Search">
+					<form role = "form" action="{% url 'askKruglov_app:search' %}">
+						<div class="col-md-10">
+							<input name = "query" type = "text" class = "form-control" placeholder = "Search" value = "{{ search_value }}">
+						</div>
+						<div class="col-md-2">
+							<button type = "submit" class = "btn btn-default">
+								<div class = "button-text"> Search </div>
+							</button>
+						</div>
 					</form>
 				</div>
 
-				<div class = "col-md-1 align button-text">
+				<div class = "col-md-1">
 					<a href = "{% url 'askKruglov_app:ask' %}">
-						<button type = "submit" class = "btn btn-default"> 					
-							<div class = "button-text"> Ask! </div> 
+						<button type = "button" class = "btn btn-warning btn-lg">
+							<div id = "name" class = "button-text"> Ask! </div> 
 						</button>
 					</a>
 				</div>

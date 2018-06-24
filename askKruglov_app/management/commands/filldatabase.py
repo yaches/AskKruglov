@@ -1,9 +1,17 @@
 from django.core.management.base import BaseCommand, CommandError
 from askKruglov_app.models import *
 from django.db import transaction
+
 import random
+import nltk
+from nltk.corpus import words, names
 
 random.seed()
+
+nltk.download('words')
+nltk.download('names')
+words_list = words.words()
+names_list = names.words()
 
 class Command(BaseCommand):
 
@@ -35,58 +43,68 @@ class Command(BaseCommand):
 		rand_id = id_list[index]
 		return rand_id
 
+	def get_random_words(self, min_count, max_count):
+		random_words = ''
+		count = random.randint(min_count, max_count)
+		for i in range(0, count):
+			index = random.randint(0, len(words_list) - 1)
+			random_words += words_list[index]
+			if i != count - 1:
+				random_words += ' '
+		return random_words
+
+	def get_random_name(self):
+		index = random.randint(0, len(names_list) - 1)
+		return names_list[index]
 
 	def fill_tags(self):
 		n = 100
 		with transaction.atomic():
 			for i in range(1, n + 1):
-				t = Tag(name = 'tag_' + str(i))
+				word = self.get_random_words(1, 1)
+				t = Tag(name = word)
 				try:
 					t.save()
-					self.stdout.write('Tag ' + str(i) + ' saved')
+					self.stdout.write('{}) Tag "{}" saved'.format(i, word))
 				except:
-					self.stdout.write('Tag ' + str(i) + ' error')
+					self.stdout.write('{}) Tag "{}" error'.format(i, word))
 
 
 	def fill_profiles(self):
 		n = 100
-
 		with transaction.atomic():
 			for i in range (1, n + 1):
-				username = 'user_' + str(i)
+				username = self.get_random_name()
 				password = '12345'
 				try:
 					user = Profile.objects.create_user(password = password, username = username)
-					self.stdout.write('Profile ' + str(i) + ' saved')
+					self.stdout.write('{}) Profile "{}" saved'.format(i, username))
 				except:
-					self.stdout.write('Profile ' + str(i) + ' error')
+					self.stdout.write('{}) Profile "{}" error'.format(i, username))
 
 
 	def fill_questions(self):
-		n = 1000
+		n = 100
 
 		author_id_list = Profile.objects.all().values_list('id', flat = True)
 		tag_id_list = Tag.objects.all().values_list('id', flat = True)
 
 		with transaction.atomic():
 			for i in range(1, n + 1):
-				num = str(i)
-				title = 'question title ' + num
-				text = ('questions text ' + num + ' ') * 10
-				likes = random.randint(0, 100)
+				title = self.get_random_words(3, 6)
+				text = self.get_random_words(10, 20)
+				# likes = random.randint(-100, 100)
 
 				author_id = self.get_random_id(author_id_list)
-				# author = Profile.objects.get(pk = author_id)
 
-				q = Question(title = title, text = text, likes = likes, author_id = author_id)
+				q = Question(title = title, text = text, likes = 0, author_id = author_id)
 				q.save()
 				for j in range(random.randint(1, 5)):
 					tag_id = self.get_random_id(tag_id_list)
-					# tag = Tag.objects.get(pk = tag_id)
 					q.tags.add(tag_id)
 				q.save()
 
-				self.stdout.write('Question ' + str(i) + ' saved')
+				self.stdout.write('{}) Question saved'.format(i))
 
 
 	def fill_answers(self):
@@ -97,21 +115,20 @@ class Command(BaseCommand):
 		with transaction.atomic():
 			i = 0
 			for q in questions:
-				n = 100
+				n = 50
 				k = random.randint(0, n)
 				i += 1
 				for j in range(k):
 					j += 1
 					num = str(j)
-					text = ('answer text ' + num + ' ') * 10
-					likes = random.randint(0, 100)
+					text = self.get_random_words(10, 20)
+					# likes = random.randint(0, 100)
 					
 					author_id = self.get_random_id(author_id_list)
-					# author = Profile.objects.get(pk = author_id)
 
-					a = Answer(text = text, likes = likes, author_id = author_id, question_id = q.id)
+					a = Answer(text = text, likes = 0, author_id = author_id, question_id = q.id)
 					a.save()
-					self.stdout.write('Answer ' + str(j) + ' for question ' + str(i) + ' saved')
+					self.stdout.write('Answer {} for question {} saved'.format(j, i))
 
 
 	def handle(self, *args, **options):

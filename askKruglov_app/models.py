@@ -8,7 +8,7 @@ from django.db.models import F, Count
 
 class TagManager(models.Manager):
 	def populars(self, num = 12):
-		return self.annotate(q = Count('question')).order_by('-q')[:num]
+		return self.annotate(q = Count('question')).filter(q__gt = 0).order_by('-q')[:num]
 
 	def tag_by_name(self, tag_name):
 		tags = Tag.objects.filter(name = tag_name)

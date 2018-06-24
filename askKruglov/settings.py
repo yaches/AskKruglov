@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'askKruglov_app',
     'test_app',
+    'django_elasticsearch_dsl',
     # 'avatar',
 ]
 
@@ -119,7 +120,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+STATIC_ROOT = './askKruglov_app/static/'
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = './askKruglov_app/uploads/'
 MEDIA_URL = '/uploads/'
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}
